@@ -76,7 +76,8 @@ module Activeadmin
 
           def as_json(options = { })
             super(options).merge({
-              url: data_url
+              url: data_url,
+              title: title
             })
           end
         )

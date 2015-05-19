@@ -27,6 +27,16 @@ Add `dropzone_item` to your file's class:
         dropzone_item
     end
 
+Add method `title` in the model if there is no such attribute:
+
+    class Image
+        has_attached_file :file
+
+        def title
+          file_file_name
+        end
+    end
+
 Add `input` to your ActiveAdmin form:
 
     f.input :images, as: :dropzone

@@ -1,6 +1,5 @@
 <div id="dropzone_<%= method %>_<%= cycle(*(1..999).to_a, name: method) %>" class="dropzone">
   <span class="notice"><%=t 'dropzone.drag_or_click' %></span>
-  <%= hidden_field_tag "#{ object.class.model_name.singular }[#{ method }_attributes][-1]", "" %>
   <% object.send(method).each_with_index do |dropzone_object, index| %>
     <%= hidden_field_tag "#{ object.class.model_name.singular }[#{ method }_attributes][#{ dropzone_object.id }][#{ object.class.send("dropzone_#{ method }_field", :title) }]", dropzone_object.send(object.class.send("dropzone_#{ method }_field", :title)) %>
   <% end %>
