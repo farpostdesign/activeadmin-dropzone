@@ -2,6 +2,10 @@
 
 Easy to use integration of drag&drop files upload via [dropzone.js](http://www.dropzonejs.com) for [ActiveAdmin](http://www.activeadmin.info).
 
+## History
+
+* 28.09.2015 - change model association: delete self-writed association, add `accepts_nested_attributes_for`. 
+
 ## Requirements
 
 * [ActiveAdmin](http://www.activeadmin.info);
@@ -13,18 +17,12 @@ Easy to use integration of drag&drop files upload via [dropzone.js](http://www.d
 
 Add line to your Gemfile:
 
-    gem 'activeadmin-dropzone', '~> 0.2.1'
-
-Add `dropzone` to your file container's class: 
-
-    class Post
-        dropzone :images
-    end
+    gem 'activeadmin-dropzone', github: 'farpostdesign/activeadmin-dropzone'
 
 Add `dropzone_item` to your file's class:
 
     class Image
-        dropzone_item
+        dropzone_item container_id: :page_id
     end
 
 Add method `title` in the model if there is no such attribute:
@@ -36,6 +34,14 @@ Add method `title` in the model if there is no such attribute:
           file_file_name
         end
     end
+
+Add permitions to `permit_params` method for your Active Admin file, for example:
+
+    permit_params :title,
+                :annotation,
+                :description,
+                ...,
+                images_attributes: [:id, :title, :position, :_destroy] # for model Image
 
 Add `input` to your ActiveAdmin form:
 
@@ -53,7 +59,9 @@ You can customize columns used for upload by passing `Hash` to the `dropzone_ite
                   position: :position, 
                   data: :data, 
                   file_size: :data_file_size, 
-                  url: :data_url
+                  url: :data_url,
+                  container_type: :page_type, # only for polymorphic associations!
+                  container_id: :page_id, # required!
 
 ## Contributing to activeadmin-dropzone
  
