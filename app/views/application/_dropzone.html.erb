@@ -1,7 +1,7 @@
 <div id="dropzone_<%= method %>_<%= cycle(*(1..999).to_a, name: method) %>" class="dropzone">
   <span class="notice"><%=t 'dropzone.drag_or_click' %></span>
   <% object.send(method).each_with_index do |dropzone_object, index| %>
-    <%= hidden_field_tag "#{ object.class.model_name.singular }[#{ method }_attributes][#{ dropzone_object.id }][#{ object.class.send("dropzone_#{ method }_field", :title) }]", dropzone_object.send(object.class.send("dropzone_#{ method }_field", :title)) %>
+    <%= hidden_field_tag "#{ object.class.model_name.singular }[#{ method }_attributes][#{ index }][id]", dropzone_object.id %>
   <% end %>
 </div>
 
@@ -14,9 +14,10 @@
     Dropzone.autoDiscover = false;
 
     var mockFiles = <%= render_mock_dropzone_files(object.send(method)) %>;
+    var mockFilesCount = mockFiles.length;
     var dropzone_id = "#dropzone_<%= method %>_<%= current_cycle(method) %>"; 
     var dropzone = new Dropzone(dropzone_id, { 
-      url: '<%= raw upload_dropzone_path(dropzonable_id: (object.new_record? ? nil : object.id), dropzonable_class: object.class, dropzone_class: object.class.send("dropzone_#{ method }_class")) %>',
+      url: '<%= raw upload_dropzone_path(dropzonable_id: (object.new_record? ? nil : object.id), dropzonable_class: object.class, dropzone_class: object.send(method).klass.to_s) %>',
       addRemoveLinks: true,
       dictCancelUpload: '<%=t "dropzone.cancel" %>',
       dictRemoveFile: '<%=t "dropzone.remove" %>',
@@ -25,15 +26,15 @@
         xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').prop('content'));
       },
       success: function(file, data) {
-        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + data.id + '][<%= object.class.send("dropzone_#{ method }_field", :title) %>]" value="' + data.title + '" />');
+        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + mockFilesCount + '][id]" value="' + data.id + '" />');
         $(file.previewElement).attr('data-id', data.id);
         $(file.previewElement).attr('data-url', data.url);
+        $(file.previewElement).attr('data-index', mockFilesCount++);
         $(file.previewElement).find('.dz-filename span').text(data.title);
         return file.previewElement.classList.add("dz-success");
       },
       removedfile: function(file) {
-        $(dropzone_id + ' input[name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + file.id + '][<%= object.class.send("dropzone_#{ method }_field", :title) %>]"]').remove();
-        $(dropzone_id + ' input[name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + file.id + '][<%= object.class.send("dropzone_#{ method }_field", :position) %>]"]').remove();
+        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + file.index + '][_destroy]" value="1" />');
         $(file.previewElement).remove();
         $(dropzone_id).sortable('refresh');
       }
@@ -45,12 +46,14 @@
     });
 
     var func = function(file) {
-      if (file.id)
+      if (file.id) {
         $(file.previewElement).attr('data-id', file.id);
+        $(file.previewElement).attr('data-index', file.index);
+      }
 
       $(file.previewElement).find('.dz-filename, img').on('click', function() {
-        var id = $(this).parents('.dz-preview:first').attr('data-id');
-        var input = $(dropzone_id + ' input[name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + id + '][<%= object.class.send("dropzone_#{ method }_field", :title) %>]"]');
+        var index = $(this).parents('.dz-preview:first').attr('data-index');
+        var input = $(dropzone_id + ' input[name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + index + '][id]"]');
         var title = prompt("<%=t 'dropzone.title' %>: ", $(file.previewElement).find('.dz-filename span').text());
         $(file.previewElement).find('.dz-filename span').text(title);
         input.val(title);
@@ -60,8 +63,8 @@
     var generate_dropzone_position_elements = function() {
       var position = 0;
       $(dropzone_id + ' .dz-preview').each(function() {
-        var id = $(this).attr('data-id');
-        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + id + '][<%= object.class.send("dropzone_#{ method }_field", :position) %>]" value="' + (position++) + '" />');
+        var index = $(this).attr('data-index');
+        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + index + '][<%= object.send(method).klass.send("dropzone_field", :position) %>]" value="' + (position++) + '" />');
       });
     };
 
