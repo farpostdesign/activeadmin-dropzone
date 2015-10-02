@@ -49,13 +49,11 @@
               }
             }
           });
-        }
-        else {
+        } else {
           $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + file.index + '][_destroy]" value="1" />');
         }
       }
     });
-    window.Dropzone = dropzone;
 
     $(dropzone_id).sortable({
       items: '.dz-preview',
