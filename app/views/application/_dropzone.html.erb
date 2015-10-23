@@ -1,7 +1,7 @@
 <div id="dropzone_<%= method %>_<%= cycle(*(1..999).to_a, name: method) %>" class="dropzone">
   <span class="notice"><%=t 'dropzone.drag_or_click' %></span>
   <% object.send(method).each_with_index do |dropzone_object, index| %>
-    <%= hidden_field_tag "#{ object.class.model_name.singular }[#{ method }_attributes][#{ index }][id]", dropzone_object.id %>
+    <%= hidden_field_tag "#{ object.class.model_name.element }[#{ method }_attributes][#{ index }][id]", dropzone_object.id %>
   <% end %>
 </div>
 
@@ -28,7 +28,7 @@
       success: function(file, data) {
         file.id = data.id;
         file.fresh = true;
-        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + mockFilesCount + '][id]" value="' + data.id + '" />');
+        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.element %>[<%= method %>_attributes][' + mockFilesCount + '][id]" value="' + data.id + '" />');
         $(file.previewElement).attr('data-id', data.id);
         $(file.previewElement).attr('data-url', data.url);
         $(file.previewElement).attr('data-index', mockFilesCount++);
@@ -50,7 +50,7 @@
             }
           });
         } else {
-          $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + file.index + '][_destroy]" value="1" />');
+          $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.element %>[<%= method %>_attributes][' + file.index + '][_destroy]" value="1" />');
         }
       }
     });
@@ -68,7 +68,7 @@
 
       $(file.previewElement).find('.dz-filename, img').on('click', function() {
         var index = $(this).parents('.dz-preview:first').attr('data-index');
-        var input = $(dropzone_id + ' input[name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + index + '][id]"]');
+        var input = $(dropzone_id + ' input[name="<%= object.class.model_name.element %>[<%= method %>_attributes][' + index + '][id]"]');
         var title = prompt("<%=t 'dropzone.title' %>: ", $(file.previewElement).find('.dz-filename span').text());
         $(file.previewElement).find('.dz-filename span').text(title);
         input.val(title);
@@ -79,7 +79,8 @@
       var position = 0;
       $(dropzone_id + ' .dz-preview').each(function() {
         var index = $(this).attr('data-index');
-        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + index + '][<%= object.send(method).klass.send("dropzone_field", :position) %>]" value="' + (position++) + '" />');
+        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.element
+ %>[<%= method %>_attributes][' + index + '][<%= object.send(method).klass.send("dropzone_field", :position) %>]" value="' + (position++) + '" />');
       });
     };
 
