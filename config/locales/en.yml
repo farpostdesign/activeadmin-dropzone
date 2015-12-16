@@ -5,3 +5,5 @@ en:
     remove: 'Remove'
     title: 'Title'
     are_you_sure: 'Several images have not been uploaded to the server yet. Are you sure to submit form without these images?'
+    labels:
+      image: Image
