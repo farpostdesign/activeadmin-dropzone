@@ -52,6 +52,24 @@
         } else {
           $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.element %>[<%= method %>_attributes][' + file.index + '][_destroy]" value="1" />');
         }
+      },
+      thumbnail: function(file, dataUrl) {
+        var thumbnailElement;
+        var id = file.id = undefined ? "" : file.id;
+        var name = file.name == undefined ? "" : file.name;
+        var index = file.index == undefined ? mockFilesCount : file.index;
+
+        file.previewElement.classList.remove("dz-file-preview");
+        file.previewElement.classList.add("dz-image-preview");
+        thumbnailElement = file.previewElement.querySelector("[data-dz-thumbnail]");
+        thumbnailElement.alt = file.name;
+
+        file._captionLabel = Dropzone.createElement('<p>Название:</p>');
+        file._captionBox = Dropzone.createElement('<input id="album_photos_' + id + '_title" class="dropzone-caption" type="text" name="<%= object.class.model_name.element %>[<%= method %>_attributes][' + index + '][title]" value="' + name + '" />');
+        file.previewElement.appendChild(file._captionLabel);
+        file.previewElement.appendChild(file._captionBox);
+
+        return thumbnailElement.src = dataUrl;
       }
     });
 
@@ -65,14 +83,6 @@
         $(file.previewElement).attr('data-id', file.id);
         $(file.previewElement).attr('data-index', file.index);
       }
-
-      $(file.previewElement).find('.dz-filename, img').on('click', function() {
-        var index = $(this).parents('.dz-preview:first').attr('data-index');
-        var input = $(dropzone_id + ' input[name="<%= object.class.model_name.element %>[<%= method %>_attributes][' + index + '][id]"]');
-        var title = prompt("<%=t 'dropzone.title' %>: ", $(file.previewElement).find('.dz-filename span').text());
-        $(file.previewElement).find('.dz-filename span').text(title);
-        input.val(title);
-      });
     };
 
     var generate_dropzone_position_elements = function() {

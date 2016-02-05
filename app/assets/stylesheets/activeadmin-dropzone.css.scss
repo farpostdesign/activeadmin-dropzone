@@ -45,6 +45,10 @@
     border: 1px dashed #acacac !important;
     padding: 6px 6px 6px 6px !important;
     width: 112px !important;
-    height: 166px !important;
+    height: 214px !important;
   }
+}
+
+form input[type=text].dropzone-caption {
+  width: 100px;
 }
