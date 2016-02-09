@@ -5,71 +5,23 @@
 
 Gem::Specification.new do |s|
   s.name = "activeadmin-dropzone"
-  s.version = "0.2.8"
+  s.version = "0.2.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Maxim Gladkov"]
-  s.date = "2014-02-28"
-  s.email = "contact@maximgladkov.com"
+  s.authors = ["Maxim Gladkov Alexey Krylov"]
+  s.date = "2016-02-08"
+  s.email = "contact@maximgladkov.com alexey2142@mail.ru"
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.md"
   ]
-  s.files = [
-    ".DS_Store",
-    ".document",
-    "Gemfile",
-    "Gemfile.lock",
-    "LICENSE.txt",
-    "README.md",
-    "Rakefile",
-    "VERSION",
-    "activeadmin-dropzone.gemspec",
-    "app/.DS_Store",
-    "app/assets/.DS_Store",
-    "app/assets/images/.DS_Store",
-    "app/assets/images/hamburger-retina.gif",
-    "app/assets/images/hamburger.gif",
-    "app/assets/images/spritemap.png",
-    "app/assets/images/spritemap@2x.png",
-    "app/assets/javascripts/activeadmin-dropzone.js",
-    "app/assets/javascripts/dropzone.js",
-    "app/assets/stylesheets/activeadmin-dropzone.css.scss",
-    "app/assets/stylesheets/dropzone.css",
-    "app/controllers/dropzone_controller.rb",
-    "app/helpers/.DS_Store",
-    "app/helpers/active_admin/view_helpers/dropzone_helper.rb",
-    "app/inputs/dropzone_input.rb",
-    "app/views/application/_dropzone.html.erb",
-    "config/locales/en.yml",
-    "config/locales/ru.yml",
-    "config/routes.rb",
-    "lib/.DS_Store",
-    "lib/activeadmin-dropzone.rb",
-    "lib/activeadmin-dropzone/active_record/dropzone.rb",
-    "lib/activeadmin-dropzone/engine.rb",
-    "test/helper.rb",
-    "test/test_activeadmin-dropzone.rb"
-  ]
+  s.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.md"]
   s.homepage = "http://maximgladkov.com/blog/activeadmin-dropzone-gem"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "2.0.3"
   s.summary = "Easy to use integration of drag&drop files upload via dropzone.js for ActiveAdmin"
-
-  if s.respond_to? :specification_version then
-    s.specification_version = 4
-
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<jeweler>, [">= 0"])
-      s.add_development_dependency(%q<simplecov-rcov>, [">= 0"])
-    else
-      s.add_dependency(%q<jeweler>, [">= 0"])
-      s.add_dependency(%q<simplecov-rcov>, [">= 0"])
-    end
-  else
-    s.add_dependency(%q<jeweler>, [">= 0"])
-    s.add_dependency(%q<simplecov-rcov>, [">= 0"])
-  end
+  s.add_dependency "jeweler", ">= 0"
+  s.add_development_dependency 'rspec-rails', '3.1.0'
+  s.add_development_dependency 'simplecov', '0.11.1'
 end
-
