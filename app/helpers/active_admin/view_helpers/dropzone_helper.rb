@@ -13,7 +13,7 @@ module ActiveAdmin::ViewHelpers::DropzoneHelper
     dropzone_objects.map.with_index do |dropzone_object, index|
       {
         id: dropzone_object.id,
-        name: dropzone_object_title_by_index(dropzone_object, index),
+        title: dropzone_object_title_by_index(dropzone_object, index),
         size: dropzone_object.send(dropzone_object.class.dropzone_field(:file_size)),
         url: dropzone_object.send(dropzone_object.class.dropzone_field(:url)),
         index: index,

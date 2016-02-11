@@ -8,7 +8,7 @@ class DropzoneController < ApplicationController
     dropzone_object.send "#{ dropzone_class.dropzone_field(:data) }=", params[:file]
 
     if dropzone_object.save
-      render json: dropzone_object.to_json
+      render json: dropzone_object.as_json
     else
       head :error and return
     end

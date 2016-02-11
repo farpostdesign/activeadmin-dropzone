@@ -56,16 +56,16 @@
       thumbnail: function(file, dataUrl) {
         var thumbnailElement;
         var id = file.id = undefined ? "" : file.id;
-        var name = file.name == undefined ? "" : file.name;
+        var title = file.title == undefined ? "" : file.title;
         var index = file.index == undefined ? mockFilesCount : file.index;
 
         file.previewElement.classList.remove("dz-file-preview");
         file.previewElement.classList.add("dz-image-preview");
         thumbnailElement = file.previewElement.querySelector("[data-dz-thumbnail]");
-        thumbnailElement.alt = file.name;
+        thumbnailElement.alt = file.title;
 
         file._captionLabel = Dropzone.createElement('<p>Название:</p>');
-        file._captionBox = Dropzone.createElement('<input id="album_photos_' + id + '_title" class="dropzone-caption" type="text" name="<%= object.class.model_name.element %>[<%= method %>_attributes][' + index + '][title]" value="' + name + '" />');
+        file._captionBox = Dropzone.createElement('<input id="album_photos_' + id + '_title" class="dropzone-caption" type="text" name="<%= object.class.model_name.element %>[<%= method %>_attributes][' + index + '][title]" value="' + title + '" />');
         file.previewElement.appendChild(file._captionLabel);
         file.previewElement.appendChild(file._captionBox);
 

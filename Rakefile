@@ -1,37 +1,25 @@
-# encoding: utf-8
-
-require 'rubygems'
-require 'bundler'
 begin
-  Bundler.setup(:default, :development)
-rescue Bundler::BundlerError => e
-  $stderr.puts e.message
-  $stderr.puts "Run `bundle install` to install missing gems"
-  exit e.status_code
+  require 'bundler/setup'
+rescue LoadError
+  puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
 end
-require 'rake'
-
-require 'jeweler'
-Jeweler::Tasks.new do |gem|
-  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "activeadmin-dropzone"
-  gem.homepage = "http://maximgladkov.com/blog/activeadmin-dropzone-gem"
-  gem.license = "MIT"
-  gem.summary = %Q{Easy to use integration of drag&drop files upload via dropzone.js for ActiveAdmin}
-  gem.email = "contact@maximgladkov.com"
-  gem.authors = ["Maxim Gladkov"]
-  # dependencies defined in Gemfile
-end
-Jeweler::RubygemsDotOrgTasks.new
-
-task :default => :test
 
 require 'rdoc/task'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
+RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "activeadmin-dropzone #{version}"
-  rdoc.rdoc_files.include('README*')
+  rdoc.title    = 'ActiveAdmin Dropzone'
+  rdoc.options << '--line-numbers'
+  rdoc.rdoc_files.include('README.rdoc')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", __FILE__)
+load 'rails/tasks/engine.rake'
+
+
+load 'rails/tasks/statistics.rake'
+
+
+
+Bundler::GemHelper.install_tasks

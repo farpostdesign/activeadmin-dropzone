@@ -4,7 +4,7 @@ Easy to use integration of drag&drop files upload via [dropzone.js](http://www.d
 
 ## History
 
-* 28.09.2015 - change model association: delete self-writed association, add `accepts_nested_attributes_for`. 
+* 28.09.2015 - changes model association: deleted self-written association, add `accepts_nested_attributes_for`. 
 
 ## Requirements
 
