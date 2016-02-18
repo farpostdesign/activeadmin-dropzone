@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  ActiveAdmin.routes(self) if defined?(ActiveAdmin)
+  ActiveAdmin.routes(self)
 end

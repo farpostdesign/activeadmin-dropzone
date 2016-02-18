@@ -1,9 +1,11 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
-require 'paperclip'
 
 Bundler.require(*Rails.groups)
+require "activeadmin"
+require 'paperclip'
+require 'faker'
 
 module Dummy
   class Application < Rails::Application

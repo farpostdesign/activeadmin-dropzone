@@ -244,6 +244,3 @@ DEPENDENCIES
   poltergeist (= 1.6.0)
   rspec-rails (= 3.1.0)
   simplecov (= 0.11.1)
-
-BUNDLED WITH
-   1.10.6

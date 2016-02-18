@@ -23,17 +23,21 @@ RSpec.describe DropzoneController, type: :controller do
   end
 
   describe 'DELETE destroy' do
-    before :each do
+    it 'успешно удаляет файл' do
       @photo = create :photo
       delete :destroy, { dropzone_class: 'Photo', id: @photo.id }
-    end
-
-    it 'успешно удаляет файл' do
       expect(Photo.exists?(@photo.id)).to eq false
     end
 
     it 'возвращает OK после удаления файла' do
+      @photo = create :photo
+      delete :destroy, { dropzone_class: 'Photo', id: @photo.id }
       expect(JSON.parse(response.body)['result']).to eq 'ok'
+    end
+
+    it 'возвращает 404 для несуществующего файла' do
+      delete :destroy, { dropzone_class: 'Photo', id: 123 }
+      expect(response.status).to eq 404
     end
   end
 end

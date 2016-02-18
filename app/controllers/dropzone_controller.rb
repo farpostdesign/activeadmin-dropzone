@@ -19,6 +19,8 @@ class DropzoneController < ApplicationController
     dropzone_object = dropzone_class.find params[:id]
     dropzone_object.destroy
     render json: { result: :ok }
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
   end
 
 end
