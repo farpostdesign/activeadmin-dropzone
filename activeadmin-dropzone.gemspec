@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.md"]
+  s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "activeadmin", ">= 1.0.0.pre1"
   s.add_dependency "paperclip"

@@ -9,10 +9,6 @@ require "capybara/poltergeist"
 require 'database_cleaner'
 require 'simplecov'
 require 'factory_girl_rails'
-require 'faker'
-
-require_relative 'dummy/app/models/album'
-require_relative 'dummy/app/models/photo'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 

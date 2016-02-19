@@ -3,9 +3,10 @@ require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 
 Bundler.require(*Rails.groups)
-require "activeadmin"
-require 'paperclip'
+require "activeadmin-dropzone"
 require 'faker'
+
+ActiveAdmin.application.load_paths.unshift Dir[File.dirname(__FILE__) + '/../app/admin'] * ';'
 
 module Dummy
   class Application < Rails::Application
@@ -16,6 +17,8 @@ module Dummy
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = 'Asia/Vladivostok'
+
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**/}')]
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]

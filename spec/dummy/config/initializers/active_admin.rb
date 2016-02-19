@@ -115,7 +115,7 @@ ActiveAdmin.setup do |config|
   # roots for each namespace.
   #
   # Default:
-  config.root_to = 'dashboard#index'
+  config.root_to = 'albums#index'
 
 
   # == Admin Comments
@@ -245,4 +245,4 @@ ActiveAdmin.setup do |config|
   #
   # config.filters = true
 
-end if defined?(ActiveAdmin)
+end

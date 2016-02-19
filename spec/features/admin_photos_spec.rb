@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'byebug'
 
 feature 'Интерфейс управления фотографиями при изменении альбома в панели управления', :type => :feature do
   scenario 'корректно отображает название фотографии, если оно не установлено', js: true do
