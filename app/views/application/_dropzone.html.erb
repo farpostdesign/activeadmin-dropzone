@@ -55,7 +55,7 @@
       },
       thumbnail: function(file, dataUrl) {
         var thumbnailElement;
-        var id = file.id = undefined ? "" : file.id;
+        var id = file.id == undefined ? "" : file.id;
         var title = file.title == undefined ? "" : file.title;
         var index = file.index == undefined ? mockFilesCount : file.index;
 
