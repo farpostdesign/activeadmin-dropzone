@@ -5,6 +5,7 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 require "activeadmin-dropzone"
 require 'faker'
+require 'paperclip'
 
 ActiveAdmin.application.load_paths.unshift Dir[File.dirname(__FILE__) + '/../app/admin'] * ';'
 

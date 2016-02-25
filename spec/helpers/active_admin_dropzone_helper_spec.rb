@@ -10,7 +10,7 @@ module ActiveAdmin::ViewHelpers
 
       it 'возвращает title по-умолчанию' do
         photo = create :photo, title: ''
-        expect(helper.dropzone_object_title photo).to eq 'Изображение #2'
+        expect(helper.dropzone_object_title photo).to eq ''
       end
     end
 

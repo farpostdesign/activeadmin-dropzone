@@ -6,7 +6,7 @@ feature 'Интерфейс управления фотографиями при
     photo = album.photos.first
     
     visit "/admin/albums/#{album.id}/edit"
-    expect(find("#album_photos_#{photo.id}_title").value).to eq "Изображение \##{photo.id}"
+    expect(find("#album_photos_#{photo.id}_title").value).to eq ''
   end
 
   scenario 'переименовать фотографию', js: true do

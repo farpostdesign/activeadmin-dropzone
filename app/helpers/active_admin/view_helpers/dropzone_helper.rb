@@ -5,7 +5,7 @@ module ActiveAdmin::ViewHelpers::DropzoneHelper
     if title.present?
       title.squish
     else
-      "#{I18n.t('dropzone.labels.image')} \##{dropzone_object.send('id')}"
+      ''
     end
   end
 

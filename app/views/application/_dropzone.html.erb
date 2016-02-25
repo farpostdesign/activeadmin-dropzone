@@ -17,7 +17,7 @@
     var mockFilesCount = mockFiles.length;
     var dropzone_id = "#dropzone_<%= method %>_<%= current_cycle(method) %>"; 
     var dropzone = new Dropzone(dropzone_id, { 
-      url: '<%= raw upload_dropzone_path(dropzonable_id: (object.new_record? ? nil : object.id), dropzonable_class: object.class, dropzone_class: object.send(method).klass.to_s) %>',
+      url: '<%= raw upload_dropzone_path(container_id: (object.new_record? ? nil : object.id), container_type: object.class, dropzone_class: object.send(method).klass.to_s) %>',
       addRemoveLinks: true,
       dictCancelUpload: '<%=t "dropzone.cancel" %>',
       dictRemoveFile: '<%=t "dropzone.remove" %>',
@@ -39,7 +39,7 @@
         $(file.previewElement).remove();
         $(dropzone_id).sortable('refresh');
         $.ajax({
-          url: '<%= raw destroy_dropzone_path(dropzonable_id: (object.new_record? ? nil : object.id), dropzonable_class: object.class, dropzone_class: object.send(method).klass.to_s) %>' + '&id=' + file.id,
+          url: '<%= raw destroy_dropzone_path(container_id: (object.new_record? ? nil : object.id), container_type: object.class, dropzone_class: object.send(method).klass.to_s) %>' + '&id=' + file.id,
           type: 'DELETE',
           success: function(data) {
             $(dropzone_id).find('input[value="' + file.id + '"]').remove();
@@ -86,7 +86,7 @@
       $(dropzone_id + ' .dz-preview').each(function() {
         var index = $(this).attr('data-index');
         var id = $(this).attr('data-id');
-        $(dropzone_id).prepend('<input type="hidden" name="<%= object.class.model_name.element%>[<%= object.send(method).klass.model_name.element %>_ids][]" value="' + id + '"/>');
+        //$(dropzone_id).prepend('<input type="hidden" name="<%= object.class.model_name.element%>[<%= object.send(method).klass.model_name.element %>_ids][]" value="' + id + '"/>');
         $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.element%>[<%= method %>_attributes][' + index + '][<%= object.send(method).klass.send("dropzone_field", :position) %>]" value="' + (position++) + '" />');
       });
     };

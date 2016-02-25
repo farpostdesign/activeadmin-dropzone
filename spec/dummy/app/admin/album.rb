@@ -19,10 +19,8 @@ ActiveAdmin.register Album do
     f.inputs do
       f.input :title
     end
-    unless f.object.new_record?
-      f.inputs do
-        f.input :photos, as: :dropzone
-      end
+    f.inputs do
+      f.input :photos, as: :dropzone
     end
     f.actions
   end
