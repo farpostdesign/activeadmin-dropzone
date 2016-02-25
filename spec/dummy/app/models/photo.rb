@@ -8,7 +8,6 @@ class Photo < ActiveRecord::Base
 
   has_attached_file :attach, styles: { medium: "300x300#", thumb: "100x100#" }, default_url: '/images/missing/missing.jpg'
 
-  validates :album, presence: true
   validates_attachment :attach, size: { in: 0..2097152 }
   validates_attachment_content_type :attach, content_type: ['image/png', 'image/jpeg', 'image/jpg']
 

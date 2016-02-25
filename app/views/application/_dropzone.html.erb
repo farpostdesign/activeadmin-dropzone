@@ -27,8 +27,8 @@
       },
       success: function(file, data) {
         file.id = data.id;
-        file.fresh = true;
-        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.element %>[<%= method %>_attributes][' + mockFilesCount + '][id]" value="' + data.id + '" />');
+        $(dropzone_id).prepend('<input type="hidden" name="<%= object.class.model_name.element%>[<%= object.send(method).klass.model_name.element %>_ids][]" value="' + file.id + '"/>');
+        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.element %>[<%= method %>_attributes][' + mockFilesCount + '][id]" value="' + file.id + '" />');
         $(file.previewElement).attr('data-id', data.id);
         $(file.previewElement).attr('data-url', data.url);
         $(file.previewElement).attr('data-index', mockFilesCount++);
@@ -38,20 +38,16 @@
       removedfile: function(file) {
         $(file.previewElement).remove();
         $(dropzone_id).sortable('refresh');
-        if(file.fresh) {
-          $.ajax({
-            url: '<%= raw destroy_dropzone_path(dropzonable_id: (object.new_record? ? nil : object.id), dropzonable_class: object.class, dropzone_class: object.send(method).klass.to_s) %>' + '&id=' + file.id,
-            type: 'DELETE',
-            success: function(data) {
-              $(dropzone_id).find('input[value="' + file.id + '"]').remove();
-              if (data.result != 'ok') {
-                alert('Ошибка удаления фото. Пожалуйста, перезагрузите форму.');
-              }
+        $.ajax({
+          url: '<%= raw destroy_dropzone_path(dropzonable_id: (object.new_record? ? nil : object.id), dropzonable_class: object.class, dropzone_class: object.send(method).klass.to_s) %>' + '&id=' + file.id,
+          type: 'DELETE',
+          success: function(data) {
+            $(dropzone_id).find('input[value="' + file.id + '"]').remove();
+            if (data.result != 'ok') {
+              alert('Ошибка удаления фото. Пожалуйста, перезагрузите форму.');
             }
-          });
-        } else {
-          $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.element %>[<%= method %>_attributes][' + file.index + '][_destroy]" value="1" />');
-        }
+          }
+        });
       },
       thumbnail: function(file, dataUrl) {
         var thumbnailElement;
@@ -89,8 +85,9 @@
       var position = 0;
       $(dropzone_id + ' .dz-preview').each(function() {
         var index = $(this).attr('data-index');
-        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.element
- %>[<%= method %>_attributes][' + index + '][<%= object.send(method).klass.send("dropzone_field", :position) %>]" value="' + (position++) + '" />');
+        var id = $(this).attr('data-id');
+        $(dropzone_id).prepend('<input type="hidden" name="<%= object.class.model_name.element%>[<%= object.send(method).klass.model_name.element %>_ids][]" value="' + id + '"/>');
+        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.element%>[<%= method %>_attributes][' + index + '][<%= object.send(method).klass.send("dropzone_field", :position) %>]" value="' + (position++) + '" />');
       });
     };
 
@@ -107,7 +104,7 @@
 
     $('form').submit(function(e) {
       if (dropzone.getQueuedFiles().length > 0 || dropzone.getUploadingFiles().length > 0) {
-        if (confirm("<%=t 'dropzone.are_you_sure' %>") == true) {
+        if (confirm("<%=t 'dropzone.are_you_sure' %>")) {
           generate_dropzone_position_elements();
         } else {
           e.preventDefault();
