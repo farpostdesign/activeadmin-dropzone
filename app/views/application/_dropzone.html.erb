@@ -27,12 +27,9 @@
       },
       success: function(file, data) {
         file.id = data.id;
-        $(dropzone_id).prepend('<input type="hidden" name="<%= object.class.model_name.element%>[<%= object.send(method).klass.model_name.element %>_ids][]" value="' + file.id + '"/>');
-        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.element %>[<%= method %>_attributes][' + mockFilesCount + '][id]" value="' + file.id + '" />');
+        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.element %>[<%= method %>_attributes][' + $(file.previewElement).attr('data-index') + '][id]" value="' + file.id + '" />');
         $(file.previewElement).attr('data-id', data.id);
         $(file.previewElement).attr('data-url', data.url);
-        $(file.previewElement).attr('data-index', mockFilesCount++);
-        $(file.previewElement).find('.dz-filename span').text(data.title);
         return file.previewElement.classList.add("dz-success");
       },
       removedfile: function(file) {
@@ -53,8 +50,9 @@
         var thumbnailElement;
         var id = file.id == undefined ? "" : file.id;
         var title = file.title == undefined ? "" : file.title;
-        var index = file.index == undefined ? mockFilesCount : file.index;
+        var index = file.index == undefined ? mockFilesCount++ : file.index;
 
+        $(file.previewElement).attr('data-index', index);
         file.previewElement.classList.remove("dz-file-preview");
         file.previewElement.classList.add("dz-image-preview");
         thumbnailElement = file.previewElement.querySelector("[data-dz-thumbnail]");
@@ -86,7 +84,7 @@
       $(dropzone_id + ' .dz-preview').each(function() {
         var index = $(this).attr('data-index');
         var id = $(this).attr('data-id');
-        //$(dropzone_id).prepend('<input type="hidden" name="<%= object.class.model_name.element%>[<%= object.send(method).klass.model_name.element %>_ids][]" value="' + id + '"/>');
+        $(dropzone_id).prepend('<input type="hidden" name="<%= object.class.model_name.element%>[<%= object.send(method).klass.model_name.element %>_ids][]" value="' + id + '"/>');
         $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.element%>[<%= method %>_attributes][' + index + '][<%= object.send(method).klass.send("dropzone_field", :position) %>]" value="' + (position++) + '" />');
       });
     };
