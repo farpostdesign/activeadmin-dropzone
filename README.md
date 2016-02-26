@@ -25,22 +25,13 @@ Add `dropzone_item` to your file's class:
         dropzone_item container_id: :page_id
     end
 
-Add method `title` in the model if there is no such attribute:
-
-    class Image
-        has_attached_file :file
-
-        def title
-          file_file_name
-        end
-    end
-
 Add permitions to `permit_params` method for your Active Admin file, for example:
 
     permit_params :title,
                 :annotation,
                 :description,
                 ...,
+                image_ids: [], # for model Image
                 images_attributes: [:id, :title, :position, :_destroy] # for model Image
 
 Add `input` to your ActiveAdmin form:
