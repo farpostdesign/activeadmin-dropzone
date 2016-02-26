@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  pool: 5
+
+development:
+  <<: *default
+  database: activeadmin_dropzone_development
+  username: postgres
+  password: postgres
+
+test: &test
+  <<: *default
+  database: activeadmin_dropzone_test
+  username: postgres
+  password: postgres
