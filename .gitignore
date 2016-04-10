@@ -9,3 +9,4 @@ spec/dummy/public/system
 spec/dummy/.sass-cache
 coverage
 .byebug_history
+.DS_Store
