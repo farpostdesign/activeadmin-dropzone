@@ -1,6 +1,6 @@
 ActiveAdmin.register Album do
   actions :all, except: :show
-  permit_params :title, photos_attributes: [:id, :position, :title, :_destroy]
+  permit_params :title, photo_ids: [], photos_attributes: [:id, :position, :title, :_destroy]
 
   index do
     selectable_column
