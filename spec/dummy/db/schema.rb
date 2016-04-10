@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 20150121233351) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "title"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "albums", ["title"], name: "index_albums_on_title", using: :btree
@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 20150121233351) do
     t.string   "attach_content_type"
     t.integer  "attach_file_size"
     t.datetime "attach_updated_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   add_index "photos", ["album_id"], name: "index_photos_on_album_id", using: :btree
