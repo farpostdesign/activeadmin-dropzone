@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160410012326) do
+ActiveRecord::Schema.define(version: 20160410014029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,27 @@ ActiveRecord::Schema.define(version: 20160410012326) do
   end
 
   add_index "albums", ["title"], name: "index_albums_on_title", using: :btree
+
+  create_table "attachment_images", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "attach_file_name"
+    t.string   "attach_content_type"
+    t.integer  "attach_file_size"
+    t.datetime "attach_updated_at"
+    t.integer  "position"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "attachment_images", ["owner_type", "owner_id"], name: "index_attachment_images_on_owner_type_and_owner_id", using: :btree
+
+  create_table "catalog_products", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "photos", force: :cascade do |t|
     t.integer  "album_id"

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    activeadmin-dropzone (0.3.1)
+    activeadmin-dropzone (0.4.0)
       activeadmin (>= 1.0.0.pre1)
 
 GEM
