@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160410014029) do
+ActiveRecord::Schema.define(version: 20160410062345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,16 @@ ActiveRecord::Schema.define(version: 20160410014029) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "pages", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "content_id"
+    t.string   "content_type"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "pages", ["content_type", "content_id"], name: "index_pages_on_content_type_and_content_id", using: :btree
 
   create_table "photos", force: :cascade do |t|
     t.integer  "album_id"

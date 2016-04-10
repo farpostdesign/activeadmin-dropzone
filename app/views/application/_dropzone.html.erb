@@ -1,7 +1,7 @@
 <div id="dropzone_<%= method %>_<%= cycle(*(1..999).to_a, name: method) %>" class="dropzone">
   <span class="notice"><%=t 'dropzone.drag_or_click' %></span>
   <% object.send(method).each_with_index do |dropzone_object, index| %>
-    <%= hidden_field_tag "#{ object.class.model_name.singular }[#{ method }_attributes][#{ index }][id]", dropzone_object.id %>
+    <%= hidden_field_tag "#{ object_name }[#{ method }_attributes][#{ index }][id]", dropzone_object.id %>
   <% end %>
 </div>
 
@@ -27,7 +27,7 @@
       },
       success: function(file, data) {
         file.id = data.id;
-        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + $(file.previewElement).attr('data-index') + '][id]" value="' + file.id + '" />');
+        $(dropzone_id).append('<input type="hidden" name="<%= object_name %>[<%= method %>_attributes][' + $(file.previewElement).attr('data-index') + '][id]" value="' + file.id + '" />');
         $(file.previewElement).attr('data-id', data.id);
         $(file.previewElement).attr('data-url', data.url);
         return file.previewElement.classList.add("dz-success");
@@ -59,7 +59,7 @@
         thumbnailElement.alt = file.title;
 
         file._captionLabel = Dropzone.createElement('<p>Название:</p>');
-        file._captionBox = Dropzone.createElement('<input id="album_photos_' + id + '_title" class="dropzone-caption" type="text" name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + index + '][title]" value="' + title + '" />');
+        file._captionBox = Dropzone.createElement('<input id="album_photos_' + id + '_title" class="dropzone-caption" type="text" name="<%= object_name %>[<%= method %>_attributes][' + index + '][title]" value="' + title + '" />');
         file.previewElement.appendChild(file._captionLabel);
         file.previewElement.appendChild(file._captionBox);
 
@@ -84,8 +84,8 @@
       $(dropzone_id + ' .dz-preview').each(function() {
         var index = $(this).attr('data-index');
         var id = $(this).attr('data-id');
-        $(dropzone_id).prepend('<input type="hidden" name="<%= object.class.model_name.singular %>[<%= object.send(method).klass.model_name.element %>_ids][]" value="' + id + '"/>');
-        $(dropzone_id).append('<input type="hidden" name="<%= object.class.model_name.singular %>[<%= method %>_attributes][' + index + '][<%= object.send(method).klass.send("dropzone_field", :position) %>]" value="' + (position++) + '" />');
+        $(dropzone_id).prepend('<input type="hidden" name="<%= object_name %>[<%= object.send(method).klass.model_name.element %>_ids][]" value="' + id + '"/>');
+        $(dropzone_id).append('<input type="hidden" name="<%= object_name %>[<%= method %>_attributes][' + index + '][<%= object.send(method).klass.send("dropzone_field", :position) %>]" value="' + (position++) + '" />');
       });
     };
 
