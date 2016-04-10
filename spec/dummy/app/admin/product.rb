@@ -1,8 +1,10 @@
-ActiveAdmin.register Album do
-  menu parent: 'Simple case'
+ActiveAdmin.register Product do
+  menu parent: 'Polymorphic case'
 
   actions :all, except: :show
-  permit_params :title, photo_ids: [], photos_attributes: [:id, :position, :title, :_destroy]
+  permit_params :title,
+    polymorphic_image_ids: [],
+    polymorphic_images_attributes: [:id, :position, :title, :_destroy]
 
   index do
     selectable_column
@@ -22,7 +24,7 @@ ActiveAdmin.register Album do
       f.input :title
     end
     f.inputs do
-      f.input :photos, as: :dropzone
+      f.input :polymorphic_images, as: :dropzone
     end
     f.actions
   end
