@@ -5,7 +5,7 @@ class CreatePhotos < ActiveRecord::Migration
       t.string :title
       t.integer :position
       t.attachment :attach
-      t.timestamps
+      t.timestamps null: false
     end
 
     add_index :photos, :position
