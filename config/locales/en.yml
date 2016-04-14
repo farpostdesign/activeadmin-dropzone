@@ -1,6 +1,6 @@
 en:
   dropzone:
-    drag_or_click: 'Drag files here or click to upload'
+    drag_or_click: 'Drag and drop files into this field or click on the field to upload'
     cancel: 'Cancel'
     remove: 'Remove'
     title: 'Title'
