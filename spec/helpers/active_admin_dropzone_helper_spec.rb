@@ -19,7 +19,7 @@ module ActiveAdmin::ViewHelpers
         photo1 = create :photo, title: 'photo 1'
         photo2 = create :photo, title: 'photo 2'
         photo3 = create :photo, title: 'photo 3'
-        result = "[{\"id\":#{photo1.id},\"title\":\"photo 1\",\"size\":null,\"url\":\"/images/missing/missing.jpg\",\"index\":0},{\"id\":#{photo2.id},\"title\":\"photo 2\",\"size\":null,\"url\":\"/images/missing/missing.jpg\",\"index\":1},{\"id\":#{photo3.id},\"title\":\"photo 3\",\"size\":null,\"url\":\"/images/missing/missing.jpg\",\"index\":2}]"
+        result = "[{\"id\":#{photo1.id},\"title\":\"photo 1\",\"size\":null,\"url\":\"/images/missing/missing.jpg\",\"name\":null,\"index\":0},{\"id\":#{photo2.id},\"title\":\"photo 2\",\"size\":null,\"url\":\"/images/missing/missing.jpg\",\"name\":null,\"index\":1},{\"id\":#{photo3.id},\"title\":\"photo 3\",\"size\":null,\"url\":\"/images/missing/missing.jpg\",\"name\":null,\"index\":2}]"
         expect(helper.render_mock_dropzone_files [photo1, photo2, photo3]).to eq result
       end
     end

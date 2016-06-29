@@ -15,6 +15,7 @@
 
     var mockFiles = <%= render_mock_dropzone_files(object.send(method)) %>;
     var mockFilesCount = mockFiles.length;
+    var fileIndex = 0;
     var dropzone_id = "#dropzone_<%= method %>_<%= current_cycle(method) %>";
     var dropzone = new Dropzone(dropzone_id, {
       url: '<%= raw upload_dropzone_path(container_id: (object.new_record? ? nil : object.id), container_type: object.class, dropzone_class: object.send(method).klass.to_s) %>',
@@ -45,25 +46,6 @@
             }
           }
         });
-      },
-      thumbnail: function(file, dataUrl) {
-        var thumbnailElement;
-        var id = file.id == undefined ? "" : file.id;
-        var title = file.title == undefined ? "" : file.title;
-        var index = file.index == undefined ? mockFilesCount++ : file.index;
-
-        $(file.previewElement).attr('data-index', index);
-        file.previewElement.classList.remove("dz-file-preview");
-        file.previewElement.classList.add("dz-image-preview");
-        thumbnailElement = file.previewElement.querySelector("[data-dz-thumbnail]");
-        thumbnailElement.alt = file.title;
-
-        file._captionLabel = Dropzone.createElement('<p>Название:</p>');
-        file._captionBox = Dropzone.createElement('<input id="album_photos_' + id + '_title" class="dropzone-caption" type="text" name="<%= object_name %>[<%= method %>_attributes][' + index + '][title]" value="' + title + '" />');
-        file.previewElement.appendChild(file._captionLabel);
-        file.previewElement.appendChild(file._captionBox);
-
-        return thumbnailElement.src = dataUrl;
       }
     });
 
@@ -73,10 +55,25 @@
     });
 
     var func = function(file) {
-      if (file.id) {
-        $(file.previewElement).attr('data-id', file.id);
-        $(file.previewElement).attr('data-index', file.index);
+      var id = file.id || '';
+      var filename = file.name || '';
+      var title = file.title || filename;
+      var index = file.index || fileIndex++;
+      var type = file.type || undefined;
+      var img = file.previewElement.children[0].children[2];
+
+      if( (type && !/image/.test(type)) || !/\.(jpe?g|png|gif)/i.test(img.src) ) {
+        img.src = ''; // не показываем битый img
+        img.alt = ''; // не показываем лишнюю подпись дял битого img
       }
+
+      file._captionLabel = Dropzone.createElement('<p>Название:</p>');
+      file._captionBox = Dropzone.createElement('<input id="album_photos_' + id + '_title" class="dropzone-caption" type="text" name="<%= object_name %>[<%= method %>_attributes][' + index + '][title]" value="' + title + '" />');
+      file.previewElement.appendChild(file._captionLabel);
+      file.previewElement.appendChild(file._captionBox);
+
+      $(file.previewElement).attr('data-id', id);
+      $(file.previewElement).attr('data-index', index);
     };
 
     var generate_dropzone_position_elements = function() {
@@ -94,10 +91,11 @@
     for (var i = 0; i < mockFiles.length; i++) {
       var mockFile = mockFiles[i];
       dropzone.options.addedfile.call(dropzone, mockFile);
-      func(mockFile);
-      if (mockFile.url)
+      if (mockFile.url) {
         dropzone.options.thumbnail.call(dropzone, mockFile, mockFile.url);
         $(mockFile.previewElement).attr('data-url', mockFile.url);
+      }
+      func(mockFile);
     }
 
     $('form').submit(function(e) {

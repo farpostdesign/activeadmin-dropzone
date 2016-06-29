@@ -16,6 +16,7 @@ module ActiveAdmin::ViewHelpers::DropzoneHelper
         title: dropzone_object_title(dropzone_object),
         size: dropzone_object.send(dropzone_object.class.dropzone_field(:file_size)),
         url: dropzone_object.send(dropzone_object.class.dropzone_field(:url)),
+        name: dropzone_object.send(dropzone_object.class.dropzone_field(:data)).original_filename,
         index: index,
       }
     end.to_json.html_safe
